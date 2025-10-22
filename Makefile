@@ -11,12 +11,23 @@ IMAGE_TAG_SUFFIX ?=
 IMAGE_TAG = $(IMAGE_TAG_PREFIX)erp/$@$(IMAGE_TAG_SUFFIX)
 BASE_IMAGE_TAG = $(IMAGE_TAG_PREFIX)$@$(IMAGE_TAG_SUFFIX)
 BUILD_CMD ?= docker build
+BUILD_COMPOSE ?= docker compose
+
+k3d-cluster: K3D_STORAGE_DIR ?= $(HOME)
 
 
 spilo:
-	$(BUILD_CMD) -t docker.io/sftwrngnr/erp/spilo:latest -f sql/Dockerfile sql
-	docker tag docker.io/sftwrngnr/erp/spilo:latest docker.io/sftwrngnr/erp/spilo:latest
-	docker push docker.io/sftwrngnr/erp/spilo:latest
+	$(BUILD_CMD) -t docker.io/sftwrngnr/erp:latest -f docker/sql/Dockerfile docker/sql
+	docker tag docker.io/sftwrngnr/erp:latest docker.io/sftwrngnr/erp:latest
+	docker push docker.io/sftwrngnr/erp:latest
+
+hashicorp_vault:
+	sudo rm -rf /var/services/vault/
+	sudo mkdir -p /var/services/vault/{audit,config,data,file,logs,userconfig/tls,plugins}
+	sudo chown -R 100:100 /var/services/vault/
+	sudo cp docker/vault/docker-compose.yml /var/services
+	sudo cp docker/vault/vault-config.hcl /var/services/vault/config/vault-config.hcl
+	$(BUILD_COMPOSE) -f /var/services/docker-compose.yml up -d
 
 #AWS_ECR_REPO ?= "325273307126.dkr.ecr.us-east-1.amazonaws.com"
 UID = $(shell id -u)
@@ -149,7 +160,9 @@ MAKEBASEIMAGE = $(BUILD_CMD) $(BARG_ECR_REGISTRY) $(BARG_UBI9_VERSION) -f util/b
 # Currently in CI, having the dependencies will mean that they will be rebuilt without cache
 ci_deps = $(if $(CI),,$1)
 
-.PHONY: util imagery
+.PHONY: util imagery hashicorp_vault
+
+all: spilo hashicorp_vault
 
 proto_deps: PREFIX_PATH ?= ${HOME}/.local
 proto_deps: TEMP_PATH ?= /tmp/erp
