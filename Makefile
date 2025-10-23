@@ -189,7 +189,7 @@ proto_deps:
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 
-migrate-test-db: ## Run database migrations for the test DB
+migrate-db: ## Run database migrations for the DB
 	@echo "Running database migrations..."
 	@source scripts/helpers/test_db_params.sh && \
 	psql -wc 'CREATE SCHEMA IF NOT EXISTS geri' && \
