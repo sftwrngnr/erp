@@ -17,9 +17,9 @@ k3d-cluster: K3D_STORAGE_DIR ?= $(HOME)
 
 
 spilo:
-	$(BUILD_CMD) -t docker.io/sftwrngnr/erp:latest -f docker/sql/Dockerfile docker/sql
-	docker tag docker.io/sftwrngnr/erp:latest docker.io/sftwrngnr/erp:latest
-	docker push docker.io/sftwrngnr/erp:latest
+	$(BUILD_CMD) -t docker.io/sftwrngnr/mrp:latest -f docker/sql/Dockerfile docker/sql
+	docker tag docker.io/sftwrngnr/mrp:latest docker.io/sftwrngnr/mrp:latest
+	docker push docker.io/sftwrngnr/mrp:latest
 
 hashicorp_vault:
 	sudo rm -rf /var/services/vault/
@@ -162,10 +162,10 @@ ci_deps = $(if $(CI),,$1)
 
 .PHONY: util imagery hashicorp_vault
 
-all: spilo hashicorp_vault
+all: spilo hashicorp_vault nginx
 
 proto_deps: PREFIX_PATH ?= ${HOME}/.local
-proto_deps: TEMP_PATH ?= /tmp/erp
+proto_deps: TEMP_PATH ?= /tmp/mrp
 proto_deps:
 	if ! command -v protoc &> /dev/null; then \
 		if [ ! -d "${TEMP_PATH}/grpc" ]; then \
@@ -189,3 +189,17 @@ proto_deps:
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 
+migrate-test-db: ## Run database migrations for the test DB
+	@echo "Running database migrations..."
+	@source scripts/helpers/test_db_params.sh && \
+	psql -wc 'CREATE SCHEMA IF NOT EXISTS geri' && \
+	psql -wf deploy/k8s/gmrp/sql/functions.sql && \
+	migrate -path=$(PWD)/deploy/k8s/gmrp/sql -database=postgres://postgres:geri_test@localhost:25432/geri?sslmode=disable up && \
+	psql -U postgres -wf deploy/k8s/gmrp/sql/functions.sql && \
+	psql -U postgres -wc 'GRANT ALL PRIVILEGES ON SCHEMA geri TO geri; GRANT ALL ON ALL TABLES IN SCHEMA geri TO geri; GRANT ALL ON ALL SEQUENCES IN SCHEMA geri TO geri; '
+	@echo "Migrations complete."
+
+nginx:
+$(BUILD_CMD) -t docker.io/sftwrngnr/mrp:latest -f docker/nginx/Dockerfile docker/nginx
+	docker tag docker.io/sftwrngnr/mrp:latest docker.io/sftwrngnr/mrp:latest
+	docker push docker.io/sftwrngnr/mrp:latest
