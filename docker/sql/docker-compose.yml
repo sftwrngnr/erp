@@ -1,0 +1,18 @@
+version: '3.8' # Specify the Docker Compose file format version
+
+services:
+  db: # Define a service named 'db' for the PostgreSQL container
+    image: postgres # Use a specific version of the official PostgreSQL image
+    restart: always # Ensure the container always restarts if it stops
+    environment: # Set environment variables for PostgreSQL configuration
+      POSTGRES_USER: geri_erp # Username for the PostgreSQL database
+      POSTGRES_PASSWORD: Byte1(Me # Password for the PostgreSQL database
+      POSTGRES_DB: geri_erp # Name of the database to create
+    ports:
+      - "5432:5432" # Map port 5432 on the host to port 5432 in the container
+    volumes:
+      - pgdata:/media/jdanh/BACKUP/postgresql/data # Persist data in a named volume
+
+volumes:
+  pgdata: # Define the named volume 'pgdata'
+    driver: local # Use the local driver for the volume
