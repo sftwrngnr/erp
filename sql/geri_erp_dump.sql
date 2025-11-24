@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 8W7oeU64yAwAwzjyclvILfqDrxyIzewpB8p47XgTl5EP9HXhuskrmNXHqLc2N62
+\restrict xltSoSVwHuSLUVZJJvBToJeNqQKTTKOEj91mHYGcoZB3axINEUcuyQrtWwsDGo3
 
 -- Dumped from database version 18.1 (Debian 18.1-1.pgdg13+2)
 -- Dumped by pg_dump version 18.1 (Ubuntu 18.1-1.pgdg24.04+2)
@@ -29,9 +29,9 @@ CREATE DATABASE geri_erp WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROV
 
 ALTER DATABASE geri_erp OWNER TO geri_erp;
 
-\unrestrict 8W7oeU64yAwAwzjyclvILfqDrxyIzewpB8p47XgTl5EP9HXhuskrmNXHqLc2N62
+\unrestrict xltSoSVwHuSLUVZJJvBToJeNqQKTTKOEj91mHYGcoZB3axINEUcuyQrtWwsDGo3
 \connect geri_erp
-\restrict 8W7oeU64yAwAwzjyclvILfqDrxyIzewpB8p47XgTl5EP9HXhuskrmNXHqLc2N62
+\restrict xltSoSVwHuSLUVZJJvBToJeNqQKTTKOEj91mHYGcoZB3axINEUcuyQrtWwsDGo3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -88,6 +88,45 @@ ALTER SEQUENCE public."BOM_id_seq" OWNER TO geri_erp;
 --
 
 ALTER SEQUENCE public."BOM_id_seq" OWNED BY public."BOM".id;
+
+
+--
+-- Name: calibration_event; Type: TABLE; Schema: public; Owner: geri_erp
+--
+
+CREATE TABLE public.calibration_event (
+    id bigint NOT NULL,
+    event_ts timestamp with time zone DEFAULT now() NOT NULL,
+    tech_id bigint NOT NULL,
+    vendor_id bigint DEFAULT 0 NOT NULL,
+    cal_cert_number character varying,
+    cal_procedure bigint DEFAULT 0 NOT NULL,
+    environment_cond bigint,
+    cal_std_used bigint
+);
+
+
+ALTER TABLE public.calibration_event OWNER TO geri_erp;
+
+--
+-- Name: calibration_event_id_seq; Type: SEQUENCE; Schema: public; Owner: geri_erp
+--
+
+CREATE SEQUENCE public.calibration_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.calibration_event_id_seq OWNER TO geri_erp;
+
+--
+-- Name: calibration_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: geri_erp
+--
+
+ALTER SEQUENCE public.calibration_event_id_seq OWNED BY public.calibration_event.id;
 
 
 --
@@ -424,7 +463,16 @@ CREATE TABLE public.tools (
     created_at date DEFAULT now() NOT NULL,
     updated_at date DEFAULT now() NOT NULL,
     deleted_at date,
-    service_removal bigint
+    service_removal bigint,
+    mfg bigint NOT NULL,
+    serial character varying,
+    model character varying,
+    location bigint NOT NULL,
+    next_calibration date,
+    cal_freq bigint,
+    cal_freq_units bigint,
+    last_cal bigint,
+    cal_app bigint
 );
 
 
@@ -544,6 +592,13 @@ ALTER TABLE ONLY public."BOM" ALTER COLUMN id SET DEFAULT nextval('public."BOM_i
 
 
 --
+-- Name: calibration_event id; Type: DEFAULT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.calibration_event ALTER COLUMN id SET DEFAULT nextval('public.calibration_event_id_seq'::regclass);
+
+
+--
 -- Name: itemref id; Type: DEFAULT; Schema: public; Owner: geri_erp
 --
 
@@ -629,6 +684,14 @@ COPY public."BOM" (id, name, description, securityid, revision, minor_rev, activ
 
 
 --
+-- Data for Name: calibration_event; Type: TABLE DATA; Schema: public; Owner: geri_erp
+--
+
+COPY public.calibration_event (id, event_ts, tech_id, vendor_id, cal_cert_number, cal_procedure, environment_cond, cal_std_used) FROM stdin;
+\.
+
+
+--
 -- Data for Name: itemref; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
@@ -702,7 +765,7 @@ COPY public.tool (id, name, description, calibration_req, created_at, updated_at
 -- Data for Name: tools; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.tools (id, tool_ref, asset_tag, start_service, serv_expire, last_calibration, active_use, checkout, checkin, created_at, updated_at, deleted_at, service_removal) FROM stdin;
+COPY public.tools (id, tool_ref, asset_tag, start_service, serv_expire, last_calibration, active_use, checkout, checkin, created_at, updated_at, deleted_at, service_removal, mfg, serial, model, location, next_calibration, cal_freq, cal_freq_units, last_cal, cal_app) FROM stdin;
 \.
 
 
@@ -727,6 +790,13 @@ COPY public.vendorpart (id, vendor, partnum, description, preferred, refpart, lo
 --
 
 SELECT pg_catalog.setval('public."BOM_id_seq"', 1, false);
+
+
+--
+-- Name: calibration_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: geri_erp
+--
+
+SELECT pg_catalog.setval('public.calibration_event_id_seq', 1, false);
 
 
 --
@@ -804,6 +874,14 @@ SELECT pg_catalog.setval('public.vendor_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.vendorpart_id_seq', 1, false);
+
+
+--
+-- Name: calibration_event calibration_pk; Type: CONSTRAINT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.calibration_event
+    ADD CONSTRAINT calibration_pk PRIMARY KEY (id);
 
 
 --
@@ -1013,5 +1091,5 @@ ALTER TABLE ONLY public.vendorpart
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 8W7oeU64yAwAwzjyclvILfqDrxyIzewpB8p47XgTl5EP9HXhuskrmNXHqLc2N62
+\unrestrict xltSoSVwHuSLUVZJJvBToJeNqQKTTKOEj91mHYGcoZB3axINEUcuyQrtWwsDGo3
 
