@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ItM1PAyAQ35BRNFMAV2C6dE6xL4ySSQBws4TQk7MuMKuImdclJxq2PkRZJaj57S
+\restrict EyVemOhzAECSMF29i9OerNPJEzhnrRqmEdQwwT2BoVRGNLU5K6RFNCjIU0pJNWd
 
 -- Dumped from database version 18.1 (Debian 18.1-1.pgdg13+2)
 -- Dumped by pg_dump version 18.1 (Ubuntu 18.1-1.pgdg24.04+2)
@@ -29,9 +29,9 @@ CREATE DATABASE geri_erp WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROV
 
 ALTER DATABASE geri_erp OWNER TO geri_erp;
 
-\unrestrict ItM1PAyAQ35BRNFMAV2C6dE6xL4ySSQBws4TQk7MuMKuImdclJxq2PkRZJaj57S
+\unrestrict EyVemOhzAECSMF29i9OerNPJEzhnrRqmEdQwwT2BoVRGNLU5K6RFNCjIU0pJNWd
 \connect geri_erp
-\restrict ItM1PAyAQ35BRNFMAV2C6dE6xL4ySSQBws4TQk7MuMKuImdclJxq2PkRZJaj57S
+\restrict EyVemOhzAECSMF29i9OerNPJEzhnrRqmEdQwwT2BoVRGNLU5K6RFNCjIU0pJNWd
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -44,6 +44,22 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO pg_database_owner;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
 
 SET default_tablespace = '';
 
@@ -167,6 +183,127 @@ ALTER SEQUENCE public.calibration_event_id_seq OWNER TO geri_erp;
 --
 
 ALTER SEQUENCE public.calibration_event_id_seq OWNED BY public.calibration_event.id;
+
+
+--
+-- Name: changelog; Type: TABLE; Schema: public; Owner: geri_erp
+--
+
+CREATE TABLE public.changelog (
+    id bigint NOT NULL,
+    event bigint NOT NULL,
+    "table" character varying NOT NULL,
+    recordid bigint NOT NULL,
+    oldvalue character varying NOT NULL,
+    newvalue character varying NOT NULL,
+    "timestamp" timestamp with time zone DEFAULT now() NOT NULL,
+    action bigint NOT NULL
+);
+
+
+ALTER TABLE public.changelog OWNER TO geri_erp;
+
+--
+-- Name: changelog_id_seq; Type: SEQUENCE; Schema: public; Owner: geri_erp
+--
+
+CREATE SEQUENCE public.changelog_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.changelog_id_seq OWNER TO geri_erp;
+
+--
+-- Name: changelog_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: geri_erp
+--
+
+ALTER SEQUENCE public.changelog_id_seq OWNED BY public.changelog.id;
+
+
+--
+-- Name: employees; Type: TABLE; Schema: public; Owner: geri_erp
+--
+
+CREATE TABLE public.employees (
+    id bigint NOT NULL,
+    firstname character varying NOT NULL,
+    middle character varying,
+    lastname character varying NOT NULL,
+    preferredname character varying,
+    title bigint DEFAULT 0 NOT NULL,
+    organization bigint DEFAULT 0 NOT NULL,
+    manager bigint,
+    startdate date,
+    terminationdate date,
+    active boolean DEFAULT true NOT NULL,
+    certifications boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.employees OWNER TO geri_erp;
+
+--
+-- Name: employees_id_seq; Type: SEQUENCE; Schema: public; Owner: geri_erp
+--
+
+CREATE SEQUENCE public.employees_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.employees_id_seq OWNER TO geri_erp;
+
+--
+-- Name: employees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: geri_erp
+--
+
+ALTER SEQUENCE public.employees_id_seq OWNED BY public.employees.id;
+
+
+--
+-- Name: eventlog; Type: TABLE; Schema: public; Owner: geri_erp
+--
+
+CREATE TABLE public.eventlog (
+    id bigint NOT NULL,
+    "timestamp" timestamp with time zone DEFAULT now() NOT NULL,
+    type bigint NOT NULL,
+    source bigint NOT NULL,
+    userid character varying NOT NULL,
+    sessionid character varying,
+    message character varying,
+    severity bigint
+);
+
+
+ALTER TABLE public.eventlog OWNER TO geri_erp;
+
+--
+-- Name: eventlog_id_seq; Type: SEQUENCE; Schema: public; Owner: geri_erp
+--
+
+CREATE SEQUENCE public.eventlog_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.eventlog_id_seq OWNER TO geri_erp;
+
+--
+-- Name: eventlog_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: geri_erp
+--
+
+ALTER SEQUENCE public.eventlog_id_seq OWNED BY public.eventlog.id;
 
 
 --
@@ -415,6 +552,49 @@ ALTER SEQUENCE public.process_item_id_seq OWNED BY public.process_item.id;
 
 
 --
+-- Name: rfq_header; Type: TABLE; Schema: public; Owner: geri_erp
+--
+
+CREATE TABLE public.rfq_header (
+    id bigint NOT NULL,
+    submitted date,
+    requestedby date,
+    buildref bigint,
+    bomref bigint,
+    assyref bigint,
+    primeonly boolean DEFAULT false NOT NULL,
+    subsitutionok boolean DEFAULT false NOT NULL,
+    requestor bigint NOT NULL,
+    orderqty bigint DEFAULT 1 NOT NULL,
+    terms bigint DEFAULT 0 NOT NULL,
+    rfqtype bigint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.rfq_header OWNER TO geri_erp;
+
+--
+-- Name: rfq_header_id_seq; Type: SEQUENCE; Schema: public; Owner: geri_erp
+--
+
+CREATE SEQUENCE public.rfq_header_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.rfq_header_id_seq OWNER TO geri_erp;
+
+--
+-- Name: rfq_header_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: geri_erp
+--
+
+ALTER SEQUENCE public.rfq_header_id_seq OWNED BY public.rfq_header.id;
+
+
+--
 -- Name: steps; Type: TABLE; Schema: public; Owner: geri_erp
 --
 
@@ -484,6 +664,46 @@ ALTER SEQUENCE public.tool_id_seq OWNER TO geri_erp;
 --
 
 ALTER SEQUENCE public.tool_id_seq OWNED BY public.tool.id;
+
+
+--
+-- Name: toolcheckout; Type: TABLE; Schema: public; Owner: geri_erp
+--
+
+CREATE TABLE public.toolcheckout (
+    id bigint NOT NULL,
+    toolid bigint NOT NULL,
+    empid bigint NOT NULL,
+    checkedout date DEFAULT now() NOT NULL,
+    checkedin date,
+    condition bigint DEFAULT 0 NOT NULL,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
+);
+
+
+ALTER TABLE public.toolcheckout OWNER TO geri_erp;
+
+--
+-- Name: toolcheckout_id_seq; Type: SEQUENCE; Schema: public; Owner: geri_erp
+--
+
+CREATE SEQUENCE public.toolcheckout_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.toolcheckout_id_seq OWNER TO geri_erp;
+
+--
+-- Name: toolcheckout_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: geri_erp
+--
+
+ALTER SEQUENCE public.toolcheckout_id_seq OWNED BY public.toolcheckout.id;
 
 
 --
@@ -646,6 +866,27 @@ ALTER TABLE ONLY public.calibration_event ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: changelog id; Type: DEFAULT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.changelog ALTER COLUMN id SET DEFAULT nextval('public.changelog_id_seq'::regclass);
+
+
+--
+-- Name: employees id; Type: DEFAULT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.employees ALTER COLUMN id SET DEFAULT nextval('public.employees_id_seq'::regclass);
+
+
+--
+-- Name: eventlog id; Type: DEFAULT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.eventlog ALTER COLUMN id SET DEFAULT nextval('public.eventlog_id_seq'::regclass);
+
+
+--
 -- Name: itemref id; Type: DEFAULT; Schema: public; Owner: geri_erp
 --
 
@@ -688,6 +929,13 @@ ALTER TABLE ONLY public.proctool ALTER COLUMN id SET DEFAULT nextval('public.ite
 
 
 --
+-- Name: rfq_header id; Type: DEFAULT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.rfq_header ALTER COLUMN id SET DEFAULT nextval('public.rfq_header_id_seq'::regclass);
+
+
+--
 -- Name: steps id; Type: DEFAULT; Schema: public; Owner: geri_erp
 --
 
@@ -699,6 +947,13 @@ ALTER TABLE ONLY public.steps ALTER COLUMN id SET DEFAULT nextval('public.steps_
 --
 
 ALTER TABLE ONLY public.tool ALTER COLUMN id SET DEFAULT nextval('public.tool_id_seq'::regclass);
+
+
+--
+-- Name: toolcheckout id; Type: DEFAULT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.toolcheckout ALTER COLUMN id SET DEFAULT nextval('public.toolcheckout_id_seq'::regclass);
 
 
 --
@@ -743,6 +998,30 @@ COPY public.cal_results (id, tool_id, measurements, tolerance, pass, adjustments
 --
 
 COPY public.calibration_event (id, event_ts, tech_id, vendor_id, cal_cert_number, cal_procedure, environment_cond, cal_std_used, tool) FROM stdin;
+\.
+
+
+--
+-- Data for Name: changelog; Type: TABLE DATA; Schema: public; Owner: geri_erp
+--
+
+COPY public.changelog (id, event, "table", recordid, oldvalue, newvalue, "timestamp", action) FROM stdin;
+\.
+
+
+--
+-- Data for Name: employees; Type: TABLE DATA; Schema: public; Owner: geri_erp
+--
+
+COPY public.employees (id, firstname, middle, lastname, preferredname, title, organization, manager, startdate, terminationdate, active, certifications) FROM stdin;
+\.
+
+
+--
+-- Data for Name: eventlog; Type: TABLE DATA; Schema: public; Owner: geri_erp
+--
+
+COPY public.eventlog (id, "timestamp", type, source, userid, sessionid, message, severity) FROM stdin;
 \.
 
 
@@ -801,6 +1080,14 @@ COPY public.proctool (id, proc_step, tool_id) FROM stdin;
 
 
 --
+-- Data for Name: rfq_header; Type: TABLE DATA; Schema: public; Owner: geri_erp
+--
+
+COPY public.rfq_header (id, submitted, requestedby, buildref, bomref, assyref, primeonly, subsitutionok, requestor, orderqty, terms, rfqtype) FROM stdin;
+\.
+
+
+--
 -- Data for Name: steps; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
@@ -813,6 +1100,14 @@ COPY public.steps (id, item_ref, step_seq) FROM stdin;
 --
 
 COPY public.tool (id, name, description, calibration_req, created_at, updated_at, deleted_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: toolcheckout; Type: TABLE DATA; Schema: public; Owner: geri_erp
+--
+
+COPY public.toolcheckout (id, toolid, empid, checkedout, checkedin, condition, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -862,6 +1157,27 @@ SELECT pg_catalog.setval('public.calibration_event_id_seq', 1, false);
 
 
 --
+-- Name: changelog_id_seq; Type: SEQUENCE SET; Schema: public; Owner: geri_erp
+--
+
+SELECT pg_catalog.setval('public.changelog_id_seq', 1, false);
+
+
+--
+-- Name: employees_id_seq; Type: SEQUENCE SET; Schema: public; Owner: geri_erp
+--
+
+SELECT pg_catalog.setval('public.employees_id_seq', 1, false);
+
+
+--
+-- Name: eventlog_id_seq; Type: SEQUENCE SET; Schema: public; Owner: geri_erp
+--
+
+SELECT pg_catalog.setval('public.eventlog_id_seq', 1, false);
+
+
+--
 -- Name: itemref_id_seq; Type: SEQUENCE SET; Schema: public; Owner: geri_erp
 --
 
@@ -904,6 +1220,13 @@ SELECT pg_catalog.setval('public.process_item_id_seq', 1, false);
 
 
 --
+-- Name: rfq_header_id_seq; Type: SEQUENCE SET; Schema: public; Owner: geri_erp
+--
+
+SELECT pg_catalog.setval('public.rfq_header_id_seq', 1, false);
+
+
+--
 -- Name: steps_id_seq; Type: SEQUENCE SET; Schema: public; Owner: geri_erp
 --
 
@@ -915,6 +1238,13 @@ SELECT pg_catalog.setval('public.steps_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.tool_id_seq', 1, false);
+
+
+--
+-- Name: toolcheckout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: geri_erp
+--
+
+SELECT pg_catalog.setval('public.toolcheckout_id_seq', 1, false);
 
 
 --
@@ -952,6 +1282,22 @@ ALTER TABLE ONLY public.cal_results
 
 ALTER TABLE ONLY public.calibration_event
     ADD CONSTRAINT calibration_pk PRIMARY KEY (id);
+
+
+--
+-- Name: employees employees_pk; Type: CONSTRAINT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.employees
+    ADD CONSTRAINT employees_pk PRIMARY KEY (id);
+
+
+--
+-- Name: eventlog eventlog_pk; Type: CONSTRAINT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.eventlog
+    ADD CONSTRAINT eventlog_pk PRIMARY KEY (id);
 
 
 --
@@ -1003,6 +1349,14 @@ ALTER TABLE ONLY public.process_item
 
 
 --
+-- Name: rfq_header rfq_header_pk; Type: CONSTRAINT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.rfq_header
+    ADD CONSTRAINT rfq_header_pk PRIMARY KEY (id);
+
+
+--
 -- Name: steps steps_pk; Type: CONSTRAINT; Schema: public; Owner: geri_erp
 --
 
@@ -1016,6 +1370,14 @@ ALTER TABLE ONLY public.steps
 
 ALTER TABLE ONLY public.tool
     ADD CONSTRAINT tool_pk PRIMARY KEY (id);
+
+
+--
+-- Name: toolcheckout toolcheckout_pk; Type: CONSTRAINT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.toolcheckout
+    ADD CONSTRAINT toolcheckout_pk PRIMARY KEY (id);
 
 
 --
@@ -1057,6 +1419,34 @@ CREATE INDEX bom_name_idx ON public."BOM" USING btree (name);
 
 
 --
+-- Name: changelog_id_idx; Type: INDEX; Schema: public; Owner: geri_erp
+--
+
+CREATE INDEX changelog_id_idx ON public.changelog USING btree (id, "table", event, "timestamp");
+
+
+--
+-- Name: eventlog_source_idx; Type: INDEX; Schema: public; Owner: geri_erp
+--
+
+CREATE INDEX eventlog_source_idx ON public.eventlog USING btree (source, severity);
+
+
+--
+-- Name: eventlog_type_idx; Type: INDEX; Schema: public; Owner: geri_erp
+--
+
+CREATE INDEX eventlog_type_idx ON public.eventlog USING btree (type, severity, "timestamp");
+
+
+--
+-- Name: eventlog_userid_idx; Type: INDEX; Schema: public; Owner: geri_erp
+--
+
+CREATE INDEX eventlog_userid_idx ON public.eventlog USING btree (userid, "timestamp");
+
+
+--
 -- Name: itemref_parentid_idx; Type: INDEX; Schema: public; Owner: geri_erp
 --
 
@@ -1068,6 +1458,13 @@ CREATE INDEX itemref_parentid_idx ON public.itemref USING btree (parentid);
 --
 
 CREATE INDEX items_id_idx ON public.items USING btree (id);
+
+
+--
+-- Name: rfq_header_rfqtype_idx; Type: INDEX; Schema: public; Owner: geri_erp
+--
+
+CREATE INDEX rfq_header_rfqtype_idx ON public.rfq_header USING btree (rfqtype);
 
 
 --
@@ -1158,6 +1555,30 @@ ALTER TABLE ONLY public.proctool
 
 
 --
+-- Name: rfq_header rfq_header_employees_fk; Type: FK CONSTRAINT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.rfq_header
+    ADD CONSTRAINT rfq_header_employees_fk FOREIGN KEY (requestor) REFERENCES public.employees(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: toolcheckout toolcheckout_employees_fk; Type: FK CONSTRAINT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.toolcheckout
+    ADD CONSTRAINT toolcheckout_employees_fk FOREIGN KEY (empid) REFERENCES public.employees(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: toolcheckout toolcheckout_tool_fk; Type: FK CONSTRAINT; Schema: public; Owner: geri_erp
+--
+
+ALTER TABLE ONLY public.toolcheckout
+    ADD CONSTRAINT toolcheckout_tool_fk FOREIGN KEY (toolid) REFERENCES public.tool(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
 -- Name: tools tools_tool_fk; Type: FK CONSTRAINT; Schema: public; Owner: geri_erp
 --
 
@@ -1185,5 +1606,5 @@ ALTER TABLE ONLY public.vendorpart
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ItM1PAyAQ35BRNFMAV2C6dE6xL4ySSQBws4TQk7MuMKuImdclJxq2PkRZJaj57S
+\unrestrict EyVemOhzAECSMF29i9OerNPJEzhnrRqmEdQwwT2BoVRGNLU5K6RFNCjIU0pJNWd
 

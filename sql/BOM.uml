@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.BOM</OriginalElement>
+  <nodes>
+    <node x="0.0" y="1348.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.toolcheckout</node>
+    <node x="538.0" y="2448.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.vendorpart</node>
+    <node x="630.0" y="60.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.steps</node>
+    <node x="-94.0" y="852.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.employees</node>
+    <node x="6.5" y="2860.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.cal_results</node>
+    <node x="318.0" y="12.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.itemtype</node>
+    <node x="248.5" y="1692.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tools</node>
+    <node x="642.5" y="900.5">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.changelog</node>
+    <node x="459.5" y="1288.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.process_item</node>
+    <node x="642.5" y="2860.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.eventlog</node>
+    <node x="476.5" y="316.5">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.items</node>
+    <node x="248.0" y="2848.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.calibration_event</node>
+    <node x="-131.5" y="1812.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.rfq_header</node>
+    <node x="147.5" y="2580.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.proctool</node>
+    <node x="647.0" y="1884.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.itemref</node>
+    <node x="781.0" y="1348.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.vendor</node>
+    <node x="308.0" y="888.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.mfgprocess_hdr</node>
+    <node x="518.0" y="-283.5">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.BOM</node>
+    <node x="125.5" y="472.0">d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tool</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.rfq_header" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.employees" relationship="REFERENCES">
+      <point x="0.0" y="-164.0" />
+      <point x="-46.0" y="1776.0" />
+      <point x="-50.0" y="1776.0" />
+      <point x="-44.0" y="164.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.vendorpart" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.vendor" relationship="REFERENCES">
+      <point x="-38.0" y="-188.0" />
+      <point x="576.0" y="2396.0" />
+      <point x="890.5" y="2396.0" />
+      <point x="36.5" y="128.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.proctool" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tools" relationship="REFERENCES">
+      <point x="-33.25" y="-56.0" />
+      <point x="180.75" y="2556.0" />
+      <point x="214.0" y="2556.0" />
+      <point x="214.0" y="2336.0" />
+      <point x="254.0" y="2336.0" />
+      <point x="254.0" y="2296.0" />
+      <point x="291.25" y="2296.0" />
+      <point x="-42.75" y="284.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.cal_results" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tools" relationship="REFERENCES">
+      <point x="0.0" y="-116.0" />
+      <point x="94.0" y="2556.0" />
+      <point x="174.0" y="2556.0" />
+      <point x="174.0" y="2316.0" />
+      <point x="254.0" y="2316.0" />
+      <point x="254.0" y="2296.0" />
+      <point x="291.25" y="2296.0" />
+      <point x="-42.75" y="284.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.toolcheckout" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tool" relationship="REFERENCES">
+      <point x="37.0" y="-128.0" />
+      <point x="111.0" y="1316.0" />
+      <point x="155.0" y="1316.0" />
+      <point x="-59.0" y="104.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.itemref" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.items" relationship="REFERENCES">
+      <point x="33.5" y="-92.0" />
+      <point x="747.5" y="1196.0" />
+      <point x="573.375" y="1196.0" />
+      <point x="19.375" y="259.5" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.vendorpart" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.items" relationship="REFERENCES">
+      <point x="38.0" y="-188.0" />
+      <point x="652.0" y="2416.0" />
+      <point x="954.0" y="2416.0" />
+      <point x="954.0" y="1176.0" />
+      <point x="612.125" y="1176.0" />
+      <point x="58.125" y="259.5" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.cal_results" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tool" relationship="REFERENCES">
+      <point x="0.0" y="-116.0" />
+      <point x="94.0" y="2556.0" />
+      <point x="174.0" y="2556.0" />
+      <point x="174.0" y="1956.0" />
+      <point x="214.0" y="1956.0" />
+      <point x="0.0" y="104.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.toolcheckout" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.employees" relationship="REFERENCES">
+      <point x="-37.0" y="-128.0" />
+      <point x="37.0" y="1316.0" />
+      <point x="38.0" y="1316.0" />
+      <point x="44.0" y="164.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.proctool" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.process_item" relationship="REFERENCES">
+      <point x="33.25" y="-56.0" />
+      <point x="247.25" y="2356.0" />
+      <point x="554.0" y="2356.0" />
+      <point x="0.0" y="188.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.proctool" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tool" relationship="REFERENCES">
+      <point x="-33.25" y="-56.0" />
+      <point x="180.75" y="2556.0" />
+      <point x="214.0" y="2556.0" />
+      <point x="0.0" y="104.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.items" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.itemtype" relationship="REFERENCES">
+      <point x="-38.75" y="-259.5" />
+      <point x="515.25" y="296.0" />
+      <point x="394.0" y="296.0" />
+      <point x="0.0" y="104.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tools" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tool" relationship="REFERENCES">
+      <point x="0.0" y="-284.0" />
+      <point x="334.0" y="1656.0" />
+      <point x="273.0" y="1656.0" />
+      <point x="59.0" y="104.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.items" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.BOM" relationship="REFERENCES">
+      <point x="38.75" y="-259.5" />
+      <point x="592.75" y="296.0" />
+      <point x="594.0" y="296.0" />
+      <point x="0.0" y="139.5" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.process_item" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.items" relationship="REFERENCES">
+      <point x="47.25" y="-188.0" />
+      <point x="601.25" y="1236.0" />
+      <point x="495.875" y="1236.0" />
+      <point x="-58.125" y="259.5" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.calibration_event" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.vendor" relationship="REFERENCES">
+      <point x="63.0" y="-128.0" />
+      <point x="437.0" y="2376.0" />
+      <point x="817.5" y="2376.0" />
+      <point x="-36.5" y="128.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.calibration_event" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.tools" relationship="REFERENCES">
+      <point x="-63.0" y="-128.0" />
+      <point x="311.0" y="2816.0" />
+      <point x="376.75" y="2816.0" />
+      <point x="42.75" y="284.0" />
+    </edge>
+    <edge source="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.process_item" target="d141fbde-ce89-4bb5-a66d-326ea0a09ecb.TABLE:geri_erp.public.mfgprocess_hdr" relationship="REFERENCES">
+      <point x="-47.25" y="-188.0" />
+      <point x="506.75" y="1256.0" />
+      <point x="394.0" y="1256.0" />
+      <point x="0.0" y="128.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.4193075117370892" showDependencies="false" x="411.0" y="1410.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
