@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict EyVemOhzAECSMF29i9OerNPJEzhnrRqmEdQwwT2BoVRGNLU5K6RFNCjIU0pJNWd
+\restrict uZzWcsAU4MQUJ1W3hproyy7jmMfgqClfFtE2GI6FyVg34y2vZsHeZ1iTMkPwxjI
 
 -- Dumped from database version 18.1 (Debian 18.1-1.pgdg13+2)
 -- Dumped by pg_dump version 18.1 (Ubuntu 18.1-1.pgdg24.04+2)
@@ -29,9 +29,9 @@ CREATE DATABASE geri_erp WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROV
 
 ALTER DATABASE geri_erp OWNER TO geri_erp;
 
-\unrestrict EyVemOhzAECSMF29i9OerNPJEzhnrRqmEdQwwT2BoVRGNLU5K6RFNCjIU0pJNWd
+\unrestrict uZzWcsAU4MQUJ1W3hproyy7jmMfgqClfFtE2GI6FyVg34y2vZsHeZ1iTMkPwxjI
 \connect geri_erp
-\restrict EyVemOhzAECSMF29i9OerNPJEzhnrRqmEdQwwT2BoVRGNLU5K6RFNCjIU0pJNWd
+\restrict uZzWcsAU4MQUJ1W3hproyy7jmMfgqClfFtE2GI6FyVg34y2vZsHeZ1iTMkPwxjI
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -44,22 +44,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
---
-
-CREATE SCHEMA public;
-
-
-ALTER SCHEMA public OWNER TO pg_database_owner;
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
---
-
-COMMENT ON SCHEMA public IS 'standard public schema';
-
 
 SET default_tablespace = '';
 
@@ -1606,5 +1590,5 @@ ALTER TABLE ONLY public.vendorpart
 -- PostgreSQL database dump complete
 --
 
-\unrestrict EyVemOhzAECSMF29i9OerNPJEzhnrRqmEdQwwT2BoVRGNLU5K6RFNCjIU0pJNWd
+\unrestrict uZzWcsAU4MQUJ1W3hproyy7jmMfgqClfFtE2GI6FyVg34y2vZsHeZ1iTMkPwxjI
 
