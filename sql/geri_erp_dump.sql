@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict uZzWcsAU4MQUJ1W3hproyy7jmMfgqClfFtE2GI6FyVg34y2vZsHeZ1iTMkPwxjI
+\restrict s2IGqfDxgTlqVGzw43Ab0oiIFyACG2aZrjbRTChWYb4NMChivGIQzO2w7Fm00Qo
 
 -- Dumped from database version 18.1 (Debian 18.1-1.pgdg13+2)
 -- Dumped by pg_dump version 18.1 (Ubuntu 18.1-1.pgdg24.04+2)
@@ -29,9 +29,9 @@ CREATE DATABASE geri_erp WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROV
 
 ALTER DATABASE geri_erp OWNER TO geri_erp;
 
-\unrestrict uZzWcsAU4MQUJ1W3hproyy7jmMfgqClfFtE2GI6FyVg34y2vZsHeZ1iTMkPwxjI
+\unrestrict s2IGqfDxgTlqVGzw43Ab0oiIFyACG2aZrjbRTChWYb4NMChivGIQzO2w7Fm00Qo
 \connect geri_erp
-\restrict uZzWcsAU4MQUJ1W3hproyy7jmMfgqClfFtE2GI6FyVg34y2vZsHeZ1iTMkPwxjI
+\restrict s2IGqfDxgTlqVGzw43Ab0oiIFyACG2aZrjbRTChWYb4NMChivGIQzO2w7Fm00Qo
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -102,7 +102,10 @@ CREATE TABLE public.cal_results (
     pass boolean DEFAULT true NOT NULL,
     adjustments character varying,
     drift character varying,
-    notes character varying
+    notes character varying,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
 );
 
 
@@ -142,7 +145,10 @@ CREATE TABLE public.calibration_event (
     cal_procedure bigint DEFAULT 0 NOT NULL,
     environment_cond bigint,
     cal_std_used bigint,
-    tool bigint NOT NULL
+    tool bigint NOT NULL,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
 );
 
 
@@ -181,7 +187,10 @@ CREATE TABLE public.changelog (
     oldvalue character varying NOT NULL,
     newvalue character varying NOT NULL,
     "timestamp" timestamp with time zone DEFAULT now() NOT NULL,
-    action bigint NOT NULL
+    action bigint NOT NULL,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
 );
 
 
@@ -224,7 +233,10 @@ CREATE TABLE public.employees (
     startdate date,
     terminationdate date,
     active boolean DEFAULT true NOT NULL,
-    certifications boolean DEFAULT false NOT NULL
+    certifications boolean DEFAULT false NOT NULL,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
 );
 
 
@@ -263,7 +275,10 @@ CREATE TABLE public.eventlog (
     userid character varying NOT NULL,
     sessionid character varying,
     message character varying,
-    severity bigint
+    severity bigint,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
 );
 
 
@@ -385,7 +400,10 @@ ALTER SEQUENCE public.items_id_seq OWNED BY public.items.id;
 CREATE TABLE public.proctool (
     id bigint CONSTRAINT itemtool_id_not_null NOT NULL,
     proc_step bigint CONSTRAINT itemtool_item_id_not_null NOT NULL,
-    tool_id bigint CONSTRAINT itemtool_tool_id_not_null NOT NULL
+    tool_id bigint CONSTRAINT itemtool_tool_id_not_null NOT NULL,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
 );
 
 
@@ -551,7 +569,10 @@ CREATE TABLE public.rfq_header (
     requestor bigint NOT NULL,
     orderqty bigint DEFAULT 1 NOT NULL,
     terms bigint DEFAULT 0 NOT NULL,
-    rfqtype bigint DEFAULT 0 NOT NULL
+    rfqtype bigint DEFAULT 0 NOT NULL,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
 );
 
 
@@ -585,7 +606,10 @@ ALTER SEQUENCE public.rfq_header_id_seq OWNED BY public.rfq_header.id;
 CREATE TABLE public.steps (
     id bigint NOT NULL,
     item_ref bigint NOT NULL,
-    step_seq bigint DEFAULT 1 NOT NULL
+    step_seq bigint DEFAULT 1 NOT NULL,
+    created_at date DEFAULT now() NOT NULL,
+    updated_at date DEFAULT now() NOT NULL,
+    deleted_at date
 );
 
 
@@ -973,7 +997,7 @@ COPY public."BOM" (id, name, description, securityid, revision, minor_rev, activ
 -- Data for Name: cal_results; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.cal_results (id, tool_id, measurements, tolerance, pass, adjustments, drift, notes) FROM stdin;
+COPY public.cal_results (id, tool_id, measurements, tolerance, pass, adjustments, drift, notes, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -981,7 +1005,7 @@ COPY public.cal_results (id, tool_id, measurements, tolerance, pass, adjustments
 -- Data for Name: calibration_event; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.calibration_event (id, event_ts, tech_id, vendor_id, cal_cert_number, cal_procedure, environment_cond, cal_std_used, tool) FROM stdin;
+COPY public.calibration_event (id, event_ts, tech_id, vendor_id, cal_cert_number, cal_procedure, environment_cond, cal_std_used, tool, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -989,7 +1013,7 @@ COPY public.calibration_event (id, event_ts, tech_id, vendor_id, cal_cert_number
 -- Data for Name: changelog; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.changelog (id, event, "table", recordid, oldvalue, newvalue, "timestamp", action) FROM stdin;
+COPY public.changelog (id, event, "table", recordid, oldvalue, newvalue, "timestamp", action, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -997,7 +1021,7 @@ COPY public.changelog (id, event, "table", recordid, oldvalue, newvalue, "timest
 -- Data for Name: employees; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.employees (id, firstname, middle, lastname, preferredname, title, organization, manager, startdate, terminationdate, active, certifications) FROM stdin;
+COPY public.employees (id, firstname, middle, lastname, preferredname, title, organization, manager, startdate, terminationdate, active, certifications, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -1005,7 +1029,7 @@ COPY public.employees (id, firstname, middle, lastname, preferredname, title, or
 -- Data for Name: eventlog; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.eventlog (id, "timestamp", type, source, userid, sessionid, message, severity) FROM stdin;
+COPY public.eventlog (id, "timestamp", type, source, userid, sessionid, message, severity, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -1059,7 +1083,7 @@ COPY public.process_item (id, description, bom_item_ref, est_hrs, avg_hrs, speci
 -- Data for Name: proctool; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.proctool (id, proc_step, tool_id) FROM stdin;
+COPY public.proctool (id, proc_step, tool_id, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -1067,7 +1091,7 @@ COPY public.proctool (id, proc_step, tool_id) FROM stdin;
 -- Data for Name: rfq_header; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.rfq_header (id, submitted, requestedby, buildref, bomref, assyref, primeonly, subsitutionok, requestor, orderqty, terms, rfqtype) FROM stdin;
+COPY public.rfq_header (id, submitted, requestedby, buildref, bomref, assyref, primeonly, subsitutionok, requestor, orderqty, terms, rfqtype, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -1075,7 +1099,7 @@ COPY public.rfq_header (id, submitted, requestedby, buildref, bomref, assyref, p
 -- Data for Name: steps; Type: TABLE DATA; Schema: public; Owner: geri_erp
 --
 
-COPY public.steps (id, item_ref, step_seq) FROM stdin;
+COPY public.steps (id, item_ref, step_seq, created_at, updated_at, deleted_at) FROM stdin;
 \.
 
 
@@ -1590,5 +1614,5 @@ ALTER TABLE ONLY public.vendorpart
 -- PostgreSQL database dump complete
 --
 
-\unrestrict uZzWcsAU4MQUJ1W3hproyy7jmMfgqClfFtE2GI6FyVg34y2vZsHeZ1iTMkPwxjI
+\unrestrict s2IGqfDxgTlqVGzw43Ab0oiIFyACG2aZrjbRTChWYb4NMChivGIQzO2w7Fm00Qo
 
