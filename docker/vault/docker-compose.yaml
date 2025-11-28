@@ -3,9 +3,9 @@ services:
     image: hashicorp/vault
     container_name: geri-erp-vault
     environment:
-      VAULT_ADDR: "https://vault.geriassistbot.com:8200"
-      VAULT_API_ADDR: "https://vault.geriassistbot.com:8200"
-      VAULT_ADDRESS: "https://vault.geriassistbot.com:8200"
+      VAULT_ADDR: "https://localhost:8200"
+      VAULT_API_ADDR: "https://localhost:8200"
+      VAULT_ADDRESS: "https://localhost:8200"
       # VAULT_UI: true
       # VAULT_TOKEN:
     ports:
@@ -13,11 +13,10 @@ services:
       - "8201:8201"
     restart: always
     volumes:
-      - ./logs:/vault/logs/:rw
-      - ./data:/vault/data/:rw
-      - ./config:/vault/config/:rw
-      - ./certs:/certs/:rw
-      - ./file:/vault/file/:rw
+      - /vault/logs:/vault/logs/:rw
+      - /vault/file/:/vault/file/:rw
+      - /vault/config/:/vault/config/
+      - /vault/certs:/certs/:rw
     cap_add:
       - IPC_LOCK
     entrypoint: vault server -config /vault/config/config.hcl
